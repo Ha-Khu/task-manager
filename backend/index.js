@@ -11,6 +11,14 @@ app.get('/tasks', (req, res)=> {
   res.json(tasks)
 })
 
+app.use(express.json())
+
+app.post('/tasks', (req, res) => {
+  const data = req.body
+  tasks.push(data)
+  res.json(tasks)
+})
+
 app.listen(port, () =>{
   console.log(`Example app listening on port ${port}`)
 })
