@@ -1,6 +1,22 @@
 const express = require('express')
+const mysql = require('mysql2')
 const app = express()
 const port = 3000
+
+const db = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'task_manager'
+})
+
+db.connect((err) =>{
+  if (err) {
+    console.log("Chyba pripojenia", err)
+    return
+  }
+  console.log("Pripojený k databáze!")
+})
 
 let tasks = [
   {id: 1, text: "Nakúpiť potraviny", done: false},
@@ -8,7 +24,13 @@ let tasks = [
 ]
 
 app.get('/tasks', (req, res)=> {
-  res.json(tasks)
+  db.query('SELECT * FROM tasks', (err, results) =>{
+    if(err) {
+      res.status(500).json({error: err.message})
+      return
+    }
+    res.json(results)
+  })
 })
 
 app.use(express.json())
