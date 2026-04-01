@@ -37,8 +37,14 @@ app.use(express.json())
 
 app.post('/tasks', (req, res) => {
   const data = req.body
-  tasks.push(data)
-  res.json(tasks)
+  let sql = "INSERT INTO tasks (text, done) VALUES(?, ?)"
+  db.query(sql, [data.text, data.done], (err, results) =>{
+    if(err){
+      res.status(500).json({error: err.message})
+      return
+    }
+    res.json(results)
+  })
 })
 
 app.delete('/tasks/:id', (req, res) =>{
