@@ -48,9 +48,15 @@ app.post('/tasks', (req, res) => {
 })
 
 app.delete('/tasks/:id', (req, res) =>{
-  const deleteingTask = Number(req.params.id) 
-  tasks = tasks.filter((task) => task.id !== deleteingTask)
-  res.json(tasks)
+  const id = Number(req.params.id) 
+  let sql = "DELETE FROM tasks WHERE id = ?"
+  db.query(sql, [id], (err, results) => {
+    if(err){
+      res.status(500).json({error: err.message})
+      return
+    }
+    res.json(results)
+  })
 })
 
 app.listen(port, () =>{
