@@ -1,4 +1,5 @@
 import {useState, useEffect} from 'react'
+import axios from 'axios'
 import TaskItem from './TaskItem'
 
 
@@ -30,10 +31,10 @@ function App() {
   const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() =>{
-    const savedTasks = JSON.parse(localStorage.getItem("tasks"))
-    console.log("načítavam tasky: ", savedTasks)
-    setTasks(savedTasks || [])
-    setIsLoaded(true)
+    axios.get("http://localhost:3000/tasks").then(function(response){
+      setTasks(response.data)
+      setIsLoaded(true)
+    })
   }, [])
 
   useEffect(() => {
