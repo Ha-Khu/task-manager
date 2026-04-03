@@ -62,6 +62,19 @@ app.delete('/tasks/:id', (req, res) =>{
   })
 })
 
+app.put('/tasks/:id', (req, res)=> {
+  const id =  Number(req.params.id)
+  const data = req.body
+  let sql = "UPDATE tasks SET done = ? WHERE id = ?"
+  db.query(sql, [data.done, id], (err, results) => {
+    if(err) {
+      res.status(500).json({error: err.message})
+      return
+    }
+    res.json(results)
+  })
+})
+
 app.listen(port, () =>{
   console.log(`Example app listening on port ${port}`)
 })
