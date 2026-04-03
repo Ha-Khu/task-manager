@@ -9,8 +9,13 @@ function App() {
 
   function addTask() {
     if(inputValue === "") return
-    setTasks([...tasks, {text: inputValue, done: false}])
-    setInputValue("")
+    axios.post("http://localhost:3000/tasks", {text: inputValue, done: false})
+    .then(function(response){
+      axios.get("http://localhost:3000/tasks").then(function(response){
+        setTasks(response.data)
+      })
+      setInputValue("")
+    })
   }
 
   function deleteTask(index){
