@@ -27,14 +27,13 @@ function App() {
     })
   }
 
-  function toggleTask(index){
-    setTasks(tasks.map((task, i) =>{
-      if(i === index){
-        return {...task, done: !task.done}
-      } else {
-        return task
-      }
-    }))
+  function toggleTask(id, done){
+    axios.put(`http://localhost:3000/tasks/${id}`, {done: !done}).
+    then(function(response) {
+      axios.get("http://localhost:3000/tasks").then(function(response) {
+        setTasks(response.data)
+      })
+    })
   }
 
   const [isLoaded, setIsLoaded] = useState(false)
@@ -68,7 +67,7 @@ function App() {
         text={task.text}
         done={task.done} 
         onDelete={() => deleteTask(task.id)} 
-        onToggle={() => toggleTask(index)}
+        onToggle={() => toggleTask(task.id, task.done)}
         />
       ))}
     </div>
