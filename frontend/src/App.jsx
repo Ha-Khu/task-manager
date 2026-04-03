@@ -18,9 +18,13 @@ function App() {
     })
   }
 
-  function deleteTask(index){
-    const newTasks = tasks.filter((_, i) => index !== i)
-    setTasks(newTasks)
+  function deleteTask(id){
+    axios.delete(`http://localhost:3000/tasks/${id}`).
+    then(function(response){
+      axios.get("http://localhost:3000/tasks").then(function(response){
+        setTasks(response.data)
+      })
+    })
   }
 
   function toggleTask(index){
@@ -63,7 +67,7 @@ function App() {
         key={index} 
         text={task.text}
         done={task.done} 
-        onDelete={() => deleteTask(index)} 
+        onDelete={() => deleteTask(task.id)} 
         onToggle={() => toggleTask(index)}
         />
       ))}
