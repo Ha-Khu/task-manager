@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react'
 import axios from 'axios'
-import TaskItem from './TaskItem'
+import TaskItem from '../TaskItem'
 
 
 function App() {
