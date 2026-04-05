@@ -3,9 +3,11 @@ const mysql = require('mysql2')
 const app = express()
 const port = 3000
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 const cors = require('cors')
 app.use(cors())
+const SECRET = "tajny_kluc_123"
 
 const db = mysql.createConnection({
   host: 'localhost',
@@ -83,7 +85,8 @@ app.post('/login', (req, res) => {
     }
     bcrypt.compare(data.password, results[0].password).then((match)=>{
       if(match){
-        res.json(results)
+        const token = jwt.sign({id: results[0].id, email: results[0].email}, SECRET)
+        res.json({token})
       } else {
         res.status(401).json({error: "Nesprávne heslo"})
       }
