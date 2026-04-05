@@ -2,6 +2,7 @@ const express = require('express')
 const mysql = require('mysql2')
 const app = express()
 const port = 3000
+const bcrypt = require('bcrypt')
 
 const cors = require('cors')
 app.use(cors())
@@ -47,6 +48,22 @@ app.post('/tasks', (req, res) => {
       return
     }
     res.json(results)
+  })
+})
+
+/* LOGIN */
+
+app.post('/register', (req, res) => {
+  const data = req.body
+  let sql = "INSERT INTO users (email, password) VALUES(?, ?)"
+  bcrypt.hash(data.password, 10).then((hashPassword)=>{
+    db.query(sql, [data.email, hashPassword], (err, results) =>{
+    if(err) {
+      res.status(500).json({error: err.message})
+      return
+    }
+    res.json(results)
+    })
   })
 })
 
