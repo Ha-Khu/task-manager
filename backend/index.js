@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken')
 
 const cors = require('cors')
 app.use(cors())
+app.use(express.json())
 const SECRET = "tajny_kluc_123"
 
 const db = mysql.createConnection({
@@ -24,10 +25,6 @@ db.connect((err) =>{
   console.log("Pripojený k databáze!")
 })
 
-let tasks = [
-  {id: 1, text: "Nakúpiť potraviny", done: false},
-  {id: 2, text: "Spraviť domácu úlohu", done: false}
-]
 
 app.get('/tasks', (req, res)=> {
   db.query('SELECT * FROM tasks', (err, results) =>{
@@ -39,7 +36,6 @@ app.get('/tasks', (req, res)=> {
   })
 })
 
-app.use(express.json())
 /* POST/TASKS */
 app.post('/tasks', (req, res) => {
   const data = req.body
