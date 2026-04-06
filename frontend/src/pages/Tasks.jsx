@@ -8,10 +8,15 @@ function App() {
   const [inputValue, setInputValue] = useState("")
 
   function addTask() {
+    const token = localStorage.getItem('token')
     if(inputValue === "") return
-    axios.post("http://localhost:3000/tasks", {text: inputValue, done: false})
+    axios.post("http://localhost:3000/tasks", {text: inputValue, done: false}, {
+      headers: {authorization: token}
+    })
     .then(function(response){
-      axios.get("http://localhost:3000/tasks").then(function(response){
+      axios.get("http://localhost:3000/tasks", {
+        headers: {authorization: token}
+      }).then(function(response){
         setTasks(response.data)
       })
       setInputValue("")
@@ -19,18 +24,28 @@ function App() {
   }
 
   function deleteTask(id){
-    axios.delete(`http://localhost:3000/tasks/${id}`).
+    const token = localStorage.getItem('token')
+    axios.delete(`http://localhost:3000/tasks/${id}`, {
+      headers: {authorization: token}
+    }).
     then(function(response){
-      axios.get("http://localhost:3000/tasks").then(function(response){
+      axios.get("http://localhost:3000/tasks", {
+        headers: {authorization: token}
+      }).then(function(response){
         setTasks(response.data)
       })
     })
   }
 
   function toggleTask(id, done){
-    axios.put(`http://localhost:3000/tasks/${id}`, {done: !done}).
+    const token = localStorage.getItem('token')
+    axios.put(`http://localhost:3000/tasks/${id}`, {done: !done}, {
+      headers: {authorization: token}
+    }).
     then(function(response) {
-      axios.get("http://localhost:3000/tasks").then(function(response) {
+      axios.get("http://localhost:3000/tasks", {
+        headers: {authorization: token}
+      }).then(function(response) {
         setTasks(response.data)
       })
     })
