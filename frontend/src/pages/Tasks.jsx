@@ -39,7 +39,10 @@ function App() {
   const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() =>{
-    axios.get("http://localhost:3000/tasks").then(function(response){
+    const token = localStorage.getItem('token')
+    axios.get("http://localhost:3000/tasks", {
+      headers: {authorization: token}
+    }).then(function(response){
       setTasks(response.data)
       setIsLoaded(true)
     })
