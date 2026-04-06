@@ -25,8 +25,24 @@ db.connect((err) =>{
   console.log("Pripojený k databáze!")
 })
 
+function verifyToken(req, res, next){
+  const token = req.headers.authorization
+  if(!token){
+    res.status(401).json({error: "Neplatný token"})
+    return
+  } else {
+    try{
+      const tokenApproved = jwt.verify(token, SECRET)
+      req.user = tokenApproved
+      next()
+    } catch(err){
+      res.status(401).json({error: "Neplatný token"})
+    }
+  }
+}
 
-app.get('/tasks', (req, res)=> {
+
+app.get('/tasks', verifyToken, (req, res)=> {
   db.query('SELECT * FROM tasks', (err, results) =>{
     if(err) {
       res.status(500).json({error: err.message})
@@ -37,7 +53,7 @@ app.get('/tasks', (req, res)=> {
 })
 
 /* POST/TASKS */
-app.post('/tasks', (req, res) => {
+app.post('/tasks', verifyToken, (req, res) => {
   const data = req.body
   let sql = "INSERT INTO tasks (text, done) VALUES(?, ?)"
   db.query(sql, [data.text, data.done], (err, results) =>{
@@ -90,7 +106,7 @@ app.post('/login', (req, res) => {
   })
 })
 
-app.delete('/tasks/:id', (req, res) =>{
+app.delete('/tasks/:id', verifyToken, (req, res) =>{
   const id = Number(req.params.id) 
   let sql = "DELETE FROM tasks WHERE id = ?"
   db.query(sql, [id], (err, results) => {
@@ -102,7 +118,7 @@ app.delete('/tasks/:id', (req, res) =>{
   })
 })
 
-app.put('/tasks/:id', (req, res)=> {
+app.put('/tasks/:id', verifyToken, (req, res)=> {
   const id =  Number(req.params.id)
   const data = req.body
   let sql = "UPDATE tasks SET done = ? WHERE id = ?"
