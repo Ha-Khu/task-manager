@@ -9,17 +9,21 @@ function App() {
   const [isLoaded, setIsLoaded] = useState(false)
   const token = localStorage.getItem('token')
 
+  function fetchTasks(){
+    axios.get("http://localhost:3000/tasks", {
+      headers: {authorization: token}
+    }).then(function(response){
+      setTasks(response.data)
+    })
+  }
+
   function addTask() {
     if(inputValue === "") return
     axios.post("http://localhost:3000/tasks", {text: inputValue, done: false}, {
       headers: {authorization: token}
     })
     .then(function(response){
-      axios.get("http://localhost:3000/tasks", {
-        headers: {authorization: token}
-      }).then(function(response){
-        setTasks(response.data)
-      })
+      fetchTasks()
       setInputValue("")
     })
   }
@@ -29,11 +33,7 @@ function App() {
       headers: {authorization: token}
     }).
     then(function(response){
-      axios.get("http://localhost:3000/tasks", {
-        headers: {authorization: token}
-      }).then(function(response){
-        setTasks(response.data)
-      })
+      fetchTasks()
     })
   }
 
@@ -42,21 +42,13 @@ function App() {
       headers: {authorization: token}
     }).
     then(function(response) {
-      axios.get("http://localhost:3000/tasks", {
-        headers: {authorization: token}
-      }).then(function(response) {
-        setTasks(response.data)
-      })
+      fetchTasks()
     })
   }
 
   useEffect(() =>{
-    axios.get("http://localhost:3000/tasks", {
-      headers: {authorization: token}
-    }).then(function(response){
-      setTasks(response.data)
-      setIsLoaded(true)
-    })
+    fetchTasks()
+    setIsLoaded(true)
   }, [])
 
   useEffect(() => {
