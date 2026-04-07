@@ -14,6 +14,14 @@ function Login(){
       navigate('/tasks')
     })
   }
+
+  function handleRegister(){
+    axios.post("http://localhost:3000/register", {email, password}).
+    then(function(response){
+      handleLogin()
+    })
+  }
+
   return (
     <div>
       <h1>Login</h1>
@@ -28,7 +36,8 @@ function Login(){
       value={password}
       onChange={(e) => setPassword(e.target.value)} 
       placeholder="password" />
-      <button onClick={handleLogin}>Poslať</button>
+      <button onClick={handleLogin}>Prihlásiť sa</button>
+      <button onClick={handleRegister}>Registrovať sa</button>
     </div>
   )
 }
