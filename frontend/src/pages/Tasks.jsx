@@ -6,9 +6,10 @@ import TaskItem from '../TaskItem'
 function App() {
   const [tasks, setTasks] = useState([])
   const [inputValue, setInputValue] = useState("")
+  const [isLoaded, setIsLoaded] = useState(false)
+  const token = localStorage.getItem('token')
 
   function addTask() {
-    const token = localStorage.getItem('token')
     if(inputValue === "") return
     axios.post("http://localhost:3000/tasks", {text: inputValue, done: false}, {
       headers: {authorization: token}
@@ -24,7 +25,6 @@ function App() {
   }
 
   function deleteTask(id){
-    const token = localStorage.getItem('token')
     axios.delete(`http://localhost:3000/tasks/${id}`, {
       headers: {authorization: token}
     }).
@@ -38,7 +38,6 @@ function App() {
   }
 
   function toggleTask(id, done){
-    const token = localStorage.getItem('token')
     axios.put(`http://localhost:3000/tasks/${id}`, {done: !done}, {
       headers: {authorization: token}
     }).
@@ -51,10 +50,7 @@ function App() {
     })
   }
 
-  const [isLoaded, setIsLoaded] = useState(false)
-
   useEffect(() =>{
-    const token = localStorage.getItem('token')
     axios.get("http://localhost:3000/tasks", {
       headers: {authorization: token}
     }).then(function(response){
