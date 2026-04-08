@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react'
 import axios from 'axios'
 import TaskItem from '../TaskItem'
+import { useNavigate } from 'react-router-dom'
 
 
 function App() {
@@ -8,6 +9,11 @@ function App() {
   const [inputValue, setInputValue] = useState("")
   const [isLoaded, setIsLoaded] = useState(false)
   const token = localStorage.getItem('token')
+  const navigate = useNavigate()
+  
+  useEffect(() =>{
+    if(!token) navigate("/")
+  }, [])
 
   function fetchTasks(){
     axios.get("http://localhost:3000/tasks", {
