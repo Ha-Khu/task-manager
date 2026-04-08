@@ -52,6 +52,11 @@ function App() {
     })
   }
 
+  function handleLogout(){
+    localStorage.removeItem('token')
+    navigate("/")
+  }
+
   useEffect(() =>{
     fetchTasks()
     setIsLoaded(true)
@@ -73,6 +78,7 @@ function App() {
       placeholder='Nový task...'
       />
       <button onClick={addTask}>Pridať</button>
+      <button onClick={handleLogout}>Odhlásiť sa</button>
       {tasks.map((task, index) =>(
         <TaskItem 
         key={index} 
