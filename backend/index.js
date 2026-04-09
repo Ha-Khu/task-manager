@@ -43,7 +43,9 @@ function verifyToken(req, res, next){
 
 
 app.get('/tasks', verifyToken, (req, res)=> {
-  db.query('SELECT * FROM tasks', (err, results) =>{
+  const userID = req.user.id
+  let sql = "SELECT * FROM tasks WHERE user_id = ?"
+  db.query(sql, [userID], (err, results) =>{
     if(err) {
       res.status(500).json({error: err.message})
       return
@@ -54,9 +56,10 @@ app.get('/tasks', verifyToken, (req, res)=> {
 
 /* POST/TASKS */
 app.post('/tasks', verifyToken, (req, res) => {
+  const userID = req.user.id
   const data = req.body
-  let sql = "INSERT INTO tasks (text, done) VALUES(?, ?)"
-  db.query(sql, [data.text, data.done], (err, results) =>{
+  let sql = "INSERT INTO tasks (text, done, user_id) VALUES(?, ?, ?)"
+  db.query(sql, [data.text, data.done, userID], (err, results) =>{
     if(err){
       res.status(500).json({error: err.message})
       return
