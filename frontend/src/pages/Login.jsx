@@ -6,12 +6,15 @@ function Login(){
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const navigate = useNavigate()
+  const [error, setError] = useState("")
 
   function handleLogin(){
     axios.post("http://localhost:3000/login", {email, password}).
     then(function(response){
       localStorage.setItem('token', response.data.token)
       navigate('/tasks')
+    }).catch(function(err){
+      setError(err.response.data.error)
     })
   }
 
@@ -38,6 +41,7 @@ function Login(){
       placeholder="password" />
       <button onClick={handleLogin}>Prihlásiť sa</button>
       <button onClick={handleRegister}>Registrovať sa</button>
+      {error && <p>{error}</p>}
     </div>
   )
 }
