@@ -110,9 +110,10 @@ app.post('/login', (req, res) => {
 })
 
 app.delete('/tasks/:id', verifyToken, (req, res) =>{
+  const userID = req.user.id
   const id = Number(req.params.id) 
-  let sql = "DELETE FROM tasks WHERE id = ?"
-  db.query(sql, [id], (err, results) => {
+  let sql = "DELETE FROM tasks WHERE id = ? AND user_id = ?"
+  db.query(sql, [id, userID], (err, results) => {
     if(err){
       res.status(500).json({error: err.message})
       return
@@ -122,10 +123,11 @@ app.delete('/tasks/:id', verifyToken, (req, res) =>{
 })
 
 app.put('/tasks/:id', verifyToken, (req, res)=> {
+  const userID = req.user.id
   const id =  Number(req.params.id)
   const data = req.body
-  let sql = "UPDATE tasks SET done = ? WHERE id = ?"
-  db.query(sql, [data.done, id], (err, results) => {
+  let sql = "UPDATE tasks SET done = ? WHERE id = ? AND user_id = ?"
+  db.query(sql, [data.done, id, userID], (err, results) => {
     if(err) {
       res.status(500).json({error: err.message})
       return
