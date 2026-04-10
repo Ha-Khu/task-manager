@@ -22,6 +22,8 @@ function Login(){
     axios.post("http://localhost:3000/register", {email, password}).
     then(function(response){
       handleLogin()
+    }).catch(function(err){
+      setError(err.response.data.error)
     })
   }
 
