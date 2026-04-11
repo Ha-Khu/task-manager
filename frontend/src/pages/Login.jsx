@@ -28,22 +28,37 @@ function Login(){
   }
 
   return (
-    <div>
-      <h1>Login</h1>
-
-      <input 
-      type="email"
-      value={email}
-      onChange={(e) => setEmail(e.target.value)}
-      placeholder="email" />
-      <input 
-      type="password"
-      value={password}
-      onChange={(e) => setPassword(e.target.value)} 
-      placeholder="password" />
-      <button onClick={handleLogin}>Prihlásiť sa</button>
-      <button onClick={handleRegister}>Registrovať sa</button>
-      {error && <p>{error}</p>}
+    <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+      <div className="bg-gray-800 p-8 rounded-xl shadow-lg w-full max-w-md">
+        <h1 className="text-white text-3xl font-bold mb-6 text-center">LOGIN</h1>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email"
+          className="w-full bg-gray-700 text-white placeholder-gray-400 rounded-lg p-3 mb-4 outline-none focus:ring-2 focus:ring-purple-500"
+        />
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Heslo"
+          className="w-full bg-gray-700 text-white placeholder-gray-400 rounded-lg p-3 mb-4 outline-none focus:ring-2 focus:ring-purple-500"
+        />
+        {error && <p className="text-red-400 text-sm mb-4">{error}</p>}
+        <button
+          onClick={handleLogin}
+          className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg p-3 mb-3 transition cursor-pointer"
+        >
+          Prihlásiť sa
+        </button>
+        <button
+          onClick={handleRegister}
+          className="w-full bg-gray-700 hover:bg-gray-600 text-white font-semibold rounded-lg p-3 transition cursor-pointer"
+        >
+          Registrovať sa
+        </button>
+      </div>
     </div>
   )
 }
