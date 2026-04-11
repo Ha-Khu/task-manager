@@ -5,7 +5,7 @@ Fullstack webová aplikácia na správu úloh s autentifikáciou používateľov
 ## Demo
 
 <div align="center">
-  <img src="img/login.png" width="49%" />
+  <img src="img/Login.png" width="49%" />
   <img src="img/tasks.png" width="49%" />
 </div>
 
