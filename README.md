@@ -4,7 +4,8 @@ Fullstack webová aplikácia na správu úloh s autentifikáciou používateľov
 
 ## Demo
 
-_gif sem_
+![Login](img/Login.png)
+![Tasks](img/tasks.png)
 
 ## Technológie
 
