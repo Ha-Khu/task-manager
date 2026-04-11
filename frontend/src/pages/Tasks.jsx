@@ -69,28 +69,49 @@ function App() {
     localStorage.setItem("tasks", JSON.stringify(tasks))
   }, [tasks, isLoaded])
 
-  return(
-    <div>
-      <h1>Task Manager</h1>
-      <input 
-      type="text" 
-      value={inputValue}
-      onChange={(e) => setInputValue(e.target.value)}
-      placeholder='Nový task...'
-      />
-      <button onClick={addTask}>Pridať</button>
-      <button onClick={handleLogout}>Odhlásiť sa</button>
-      {tasks.map((task, index) =>(
-        <TaskItem 
-        key={index} 
-        text={task.text}
-        done={task.done} 
-        onDelete={() => deleteTask(task.id)} 
-        onToggle={() => toggleTask(task.id, task.done)}
+return (
+  <div className="min-h-screen bg-gray-900 p-8">
+    <div className="max-w-2xl mx-auto">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-white text-3xl font-bold">Task Manager</h1>
+        <button 
+          onClick={handleLogout}
+          className="bg-gray-700 hover:bg-gray-600 text-white rounded-lg px-4 py-2 transition cursor-pointer"
+        >
+          Odhlásiť sa
+        </button>
+      </div>
+
+      <div className="flex gap-3 mb-8">
+        <input 
+          type="text" 
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          placeholder='Nový task...'
+          className="flex-1 bg-gray-800 text-white placeholder-gray-400 rounded-lg p-3 outline-none focus:ring-2 focus:ring-purple-500"
         />
-      ))}
+        <button 
+          onClick={addTask}
+          className="bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg px-6 transition cursor-pointer"
+        >
+          Pridať
+        </button>
+      </div>
+
+      <div className="flex flex-col gap-3">
+        {tasks.map((task, index) =>(
+          <TaskItem 
+            key={index} 
+            text={task.text}
+            done={task.done} 
+            onDelete={() => deleteTask(task.id)} 
+            onToggle={() => toggleTask(task.id, task.done)}
+          />
+        ))}
+      </div>
     </div>
-  )
+  </div>
+)
 }
 
 export default App
